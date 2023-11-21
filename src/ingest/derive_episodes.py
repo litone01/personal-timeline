@@ -96,16 +96,16 @@ class EpisodeDeriver:
                     known_centers[i][1].append(idx)
                     found = True
                     break
-            
+
             if not found:
                 known_centers.append([center, [idx]])
-        
+
         max_cnt = max([len(indices) for _, indices in known_centers])
         for _, indices in known_centers:
             if len(indices) == max_cnt:
                 for idx in indices:
                     segments[idx]["tag"] = "home"
-        
+
         for seg in segments:
             if "tag" not in seg:
                 seg["tag"] = "trip"
@@ -117,7 +117,7 @@ class EpisodeDeriver:
         Args:
             places (pd.DataFrame): the places table
             d (float): the distance upper bound for each cluster
-        
+
         Returns:
             List: A list of segments. Each segment is one trip.
         """
@@ -135,8 +135,8 @@ class EpisodeDeriver:
             while end + 1 < len(places) and self.distance(start_lat_lon, (lats[end+1], longs[end+1])) <= d:
                 end += 1
                 lat_lons.append((lats[end], longs[end]))
-            
-            segments.append({"start_idx": start, 
+
+            segments.append({"start_idx": start,
                             "end_idx": end,
                             "addresses": addresses[start:end+1],
                             "ids": ids[start:end+1],
@@ -188,7 +188,7 @@ class EpisodeDeriver:
             while idx + 1 < len(places) and places[idx]['start_address'] == places[idx+1]['start_address']:
                 idx += 1
                 end_time = places[idx]['end_time']
-            
+
             # process address
             addr_desc = self.describe_place(address)
             # print(addr_desc)
@@ -197,7 +197,7 @@ class EpisodeDeriver:
             else:
                 prompt += 'from %s to %s: %s\n\n' % (start_time, end_time, addr_desc.strip())
             idx += 1
-        
+
         prompt += "\nHelp me summarize my trip to another person. Highlight significant places (e.g., restaurants, attractions, cities, countries) that I have visited. Try to break down the trip summary by days.\n"
         if details == 'high':
             prompt += "Make sure to include as many details as possible."

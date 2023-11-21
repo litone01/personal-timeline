@@ -11,4 +11,6 @@ COPY sample_data public/digital_data
 COPY src/qa/*.py .
 COPY src/qa/posttext posttext
 
+RUN ln -s /app/personal-data/app_data /app/public/digital_data/app_data
+
 CMD ["python", "server.py"]

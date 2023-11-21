@@ -40,7 +40,10 @@ class PhotoExporter:
         for row in tqdm(res.fetchall()):
             count += 1
             data: LLEntry = pickle.loads(row[0])
-            self.export_list.append(data.toDict())
+            if data is not None:
+                self.export_list.append(data.toDict())
+            else:
+                print("RowId: ", row[0], "has no enriched data")
 
     def create_export_entity(self, incremental:bool=True):
         #Read data, location, caption from photos

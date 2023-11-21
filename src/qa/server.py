@@ -59,8 +59,8 @@ def launch():
     """
     global qa_engine
     global chatgpt_engine
-    
-    qa_engine = QAEngine('public/digital_data')
+
+    qa_engine = QAEngine('public/digital_data/app_data/')
     chatgpt_engine = ChatGPTEngine()
     return {'message': 'okay'}
 
